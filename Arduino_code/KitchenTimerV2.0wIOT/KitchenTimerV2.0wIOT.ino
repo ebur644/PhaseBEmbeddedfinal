@@ -139,7 +139,7 @@ void Display4(unsigned char num) {
   digitalWrite(LATCH, HIGH);
 }
 
-void Display_Numbers() {
+void Display_Numbers() { //switches between the didgets quickly
   Display1(gcount % 10);
   delay(5);
   Display2(gcount / 10 % 6);
@@ -151,32 +151,32 @@ void Display_Numbers() {
 }
 
 
-void disp_on() {
+void disp_on() {//turns all didgits on
   digitalWrite(DIGIT_1, LOW);
   digitalWrite(DIGIT_2, LOW);
   digitalWrite(DIGIT_3, LOW);
   digitalWrite(DIGIT_4, LOW);
 }
-void disp_off() {
+void disp_off() {//turns all digits off
   digitalWrite(DIGIT_1, HIGH);
   digitalWrite(DIGIT_2, HIGH);
   digitalWrite(DIGIT_3, HIGH);
   digitalWrite(DIGIT_4, HIGH);
 }
 
-void Button_1_ISR() {
+void Button_1_ISR() {//button 1 isr
   // Set ISR Flag
   isr_1_flag = 1;
 }
 
-void Button_2_ISR() {
+void Button_2_ISR() {//button 2 isr
   // Set ISR Flag
   isr_2_flag = 1;
 }
 
 ISR(TIMER2_COMPA_vect)  // Timer1 interrupt service routine (ISR)
 {
-  if(Serial.available()>0)
+  if(Serial.available()>0)//communication with iot
   {
     gISRFlag2 = 1;
   }
@@ -190,7 +190,7 @@ ISR(TIMER1_COMPA_vect)  // timer compare interrupt service routine
   isr_3_flag = 1;
 }
 
-void activeBuzzer() {
+void activeBuzzer() {// turns on the timer
   unsigned char i;
   unsigned char sleepTime = 1;  // ms
 
@@ -204,11 +204,10 @@ void activeBuzzer() {
 
 void loop() {
   Display_Numbers();
-  // Combination of Pooling and Interrupt
   lastButtonState = currentButtonState;        // save the last state
   currentButtonState = digitalRead(BUTTON_2);  // read new state
 
-  if (lastButtonState == HIGH && currentButtonState == LOW) {
+  if (lastButtonState == HIGH && currentButtonState == LOW) {//button debounce
     if (gpause == 0) {
       gpause = 1;
       digitalWrite(GREEN_LED, LOW);
@@ -254,7 +253,7 @@ void loop() {
       activeBuzzer();
     }
   }
-  if(gpause == 0 && gcount == 0){
+  if(gpause == 0 && gcount == 0){// resets the counter
     gcount = setnum;
   }
 char  auxMsgBuff[BUFF_SIZE];
