@@ -139,7 +139,7 @@ void Display4(unsigned char num) {
   digitalWrite(LATCH, HIGH);
 }
 
-void Display_Numbers() { //switches between the didgets quickly
+void Display_Numbers() { //switches between the didgits quickly
   Display1(gcount % 10);
   delay(5);
   Display2(gcount / 10 % 6);
